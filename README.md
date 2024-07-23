@@ -129,11 +129,11 @@ Polymorphism, meaning many forms, is implemented by inheritance concepts in the 
 
 When a variable of another (compatible) type is used to refer to a class, it will bind at compile time, in contrast to when using a variable of its own type.
 
+
 #  Lambda Expressions
 
 Lambda expressions are a new and important feature of Java which was included in Java 8. They provide a clear and concise way to represent one method interface using an expression.
 
-```java
 ArrayList<String> list = new ArrayList<>();
 list.add("a");
 list.add("c");
@@ -147,6 +147,30 @@ Collections.sort(list, new Comparator<String>() {
     }
 });
 
+# Java Notes
+
+## Functional Interfaces: Predicate and Function
+
+In Java, **Predicates** are functional interfaces that represent boolean-valued functions of one argument. They are defined as `Predicate<T>` and return a boolean value by default.
+
+```java
+Predicate<String> predicate = (s) -> s.length() > 0;
+boolean result = predicate.test("foo");  // true
+boolean negatedResult = predicate.negate().test("foo");  // false
+
+Predicate<String> isEmptyPredicate = String::isEmpty;
+boolean result = isEmptyPredicate.test("foo");  // false
+boolean negatedResult = isEmptyPredicate.negate().test("foo");  // true
+
+
+Functions accept one argument and produce a result. They are defined as Function<T, R>, where T is the input type and R is the result type.
+
+
+
+
+
 // Lambda way
+
 Collections.sort(list, (o1, o2) -> o2.compareTo(o1));
 
+sfdsafdsf

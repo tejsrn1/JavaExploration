@@ -453,4 +453,208 @@ In concurrent programming, the happens-before relationship is a relation between
     - i.e we and either extend base class or either of two subclasses.
 
 
+## JDBC - Java Database Connectivity
+- Why JDBC?
+    - There are multiple approaches and technologies to connect a Java application with a database, such as EJB entity beans, JPA, Java Database Object (JDO), and others. Hibernate is considered one of the best implementations of JPA as an ORM framework.
+    - However, each of these has its advantages and disadvantages. In contrast, JDBC is simple, has been around since Java 1.1, and works with both Java SE and Java EE.
+    - JDBC is an industry-standard, database-independent connection from Java applications to various types of databases, including RDBMS, flat-file databases, or spreadsheet databases.
+    - The JDBC API defines multiple interfaces that must be implemented by the database vendors or a third party. These implementations are supplied as drivers.
+    - As of Java 7, JDBC version 4.1 is included. JDBC classes are defined in the Java packages `java.sql` and `javax.sql`.
+        - Initially, `javax` was used only for Java EE.
+        - However, this changed with JDBC 3.
+        - Now, both packages are part of JDBC in Java SE.
+    - The JDBC API classes can connect to a database, run SQL against it, and process the results.
+
+- JDBC Drivers:
+    - The JDBC API includes two major sets of interfaces:
+        - The JDBC API for application developers.
+        - The lower-level JDBC driver API for writing drivers.
+            - There are four types of drivers:
+                - Type 4—Pure Java JDBC driver.
+                - Type 3—Pure Java driver for database middleware.
+                - Type 2—Native API, partly Java driver.
+                - Type 1—JDBC-ODBC bridge.
+        - Typically, you only need to connect with the Type 4 JDBC driver, which is the pure Java JDBC driver.
+
+- `java.sql.Driver`:
+    - The JDBC API defines multiple interfaces, and the implementation of these interfaces is bundled in a driver and made available to the Java application.
+    - Java allows multiple drivers to exist and be registered.
+    - These interfaces are defined in `java.sql.Driver`.
+    - The class or driver which implements these interfaces is registered with DriverManager. When a Java application requests a connection, DriverManager searches for an appropriate driver from the list of registered drivers to connect to the database.
+    - Although not recommended, registration and selection of a driver can be done manually by calling the method `forName()` from `java.lang.Class`.
+        - For example, the `java.sql.driver` interface is implemented by the MySQL driver class as `com.mysql.jdbc.Driver`. This can be added as `Class.forName("com.mysql.jdbc.Driver")`.
+    - It is the driver that converts JDBC application calls into database calls.
+
+- `java.sql.Connection`:
+    - Represents a connection.
+    - Used to create the SQL Statement, PreparedStatement, and CallableStatement, which can be executed against database objects.
+    - Used to initiate transactions.
+    - Also used to get metadata for the database.
+
+- `java.sql.Statement`:
+    - Used to create and execute static SQL statements and retrieve their results.
+    - Used to create, modify, delete tables or insert, retrieve, modify, and delete table data.
+    - The result from the database is returned as a ResultSet or an int value showing the number of affected rows.
+    - `java.sql.PreparedStatement` and `java.sql.CallableStatement` are used for precompiled statements and `java.sql.CallableStatement` is used for stored procedures.
+
+- `java.sql.ResultSet`:
+    - Retrieves the result for SQL select statements.
+    - A ResultSet can be read-only, updatable, or scrollable.
+
+- Connecting to a Database:
+    - For the first time, a JDBC client gets a connection from the JDBC API (Driver Manager), which looks for registered drivers and provides a connection object.
+    - From the second time onwards, a JDBC client uses a connection object to connect to the database.
+
+    - How is the driver loaded?
+        - Manually, as mentioned earlier.
+        - Automatically, in JDBC 4.0 and later.
+            - Registration and loading are done via the application classpath.
+            - Who and how does this happen?
+                - The Service Provider Mechanism (SPM) does this.
+                - Using SPM, a JDBC driver implementation must include a configuration file named `Java.sql.Driver` within the `META-INF/Services` folder in the .jar file.
+                - This file contains the full name of the class that the vendor implemented for the `java.sql.driver` interface.
+                - For example, `com.mysql.jdbc.Driver` is the name of the MySQL driver.
+
+    - What code should be written to connect?
+        - When `getConnection()` is called, the DriverManager finds the appropriate drivers from its set of registered drivers, establishes a connection with a database, and returns a Connection object.
+        - `public static Connection getConnection(String url)...`
+            - URL 
+                - `jdbc:subprotocol://<host>:<port>/<database_name>`
+                - For example:
+                    - `jdbc:mysql://localhost/feedback?user=sqluser&password=sqlpwd"`
+                        The default port for MySQL is 3306.
+                    - `jdbc:mysql://data.ejavaguru.com:3305/examDB`
+                    - `jdbc:mysql://localhost:3305/mysql?connectTimeout=0`
+
+    - Exceptions it throws:
+        - `java.sql.SQLException: No suitable driver found`
+        - `java.sql.SQLException: Access denied for user`
+
+- CRUD Operations:
+    - Create Table Code 
+
+        java
+        Connection con = getConnection(...);
+        Statement st =  con.createStatement();
+        st.executeUpdate("Create Table..."); //to execute a Data Definition Language (DDL)
+        
+
+    - Insert Record in Table
+
+        java
+        Statement st =  con.createStatement();
+        int ret = st.executeUpdate ("INSERT INTO book..");
+        
+
+    - Update Record in Table    
+
+        java
+        Statement st =  con.createStatement();
+        int ret = st.executeUpdate ("UPDATE book..");
+        
+
+    - Delete Record in Table    
+
+        java
+        Statement st =  con.createStatement();
+        int ret = st.executeUpdate ("Delete from book..");
+        
+
+    - Read Record in Table    
+
+        java
+        Statement st =  con.createStatement();
+        ResultSet res = st.executeQuery ("select * from book..");
+        while (res.next()) {
+            res.getString("title")// title is column name.
+            res.getIntg("totalexperience")// totalexperience is column name.
+        }
+        
+
+    - Transaction 
+
+        java
+        Connection con = getConnection(...);
+        con.setAutoCommit(false); //START TRANSACTION BY CALLING 
+        Statement st =  con.createStatement();
+        int ret = st.executeUpdate ("INSERT INTO book..");
+        int ret = st.executeUpdate ("Delete from book..");
+        con.commit(); //commit to all db.
+        //or..
+        con.rollback(); //rolling back transaction.
+        
+
+- Rowset Object:
+    - A ResultSet would do the work but it will not update the result if there is a change in the underlying data in the database.
+    - A Rowset helps here by registering a listener with the Rowset object. Then any change made to the underlying data in the database is notified to this registered listener.
+    - There are two types of Rowset objects    
+        - Connected, `JdbcRowSet` is an implementation that keeps an open connection.
+        - Disconnected, `CachedRowSet` is an implementation that connects to the database, gets the values, and disconnects. It keeps accepting updates and then later updates the database by reconnecting to it.
+
+    - `javax.sql.rowset.RowSetFactory` has all interfaces.
+    - Example code:
+
+        java
+        RowSetFactory rowSetFactory = RowSetProvider.newFactory(); 
+        JdbcRowSet jdbcRS = rowSetFactory.createJdbcRowSet();
+        jdbcRS.setUrl("dbc:mysq..);
+        jdbcRS.setCommand("Select...);
+        jdbcRS.execute();
+        while (jdbcRS.next()) {
+        //...same as Resultset...
+        }
+
+      
+# Java 9, 10, and 11 Features
+
+## Modules
+Modules were introduced.
+
+## CompletableFuture API
+A new static method was introduced that submits a task to the default executor after the given delay.
+
+
+## Reactive Streams API
+Reactive Programming has become very popular in developing applications to get some beautiful benefits. Scala has this reactive streaming.
+
+## Diamond Operator for Anonymous Inner Class
+The diamond operator for anonymous inner classes has been removed.
+
+
+
+## Optional Class Improvements
+The `stream()` method was added to work on Optional objects lazily.
+
+
+## Stream API Improvements
+The `takeWhile()` method takes a predicate as an argument and returns a Stream of the subset of the given Stream values until that Predicate returns false for the first time.
+
+      
+
+## Factory Methods for Immutable List, Set, Map and Map.Entry
+Java SE 8 and earlier versions had `Collections.unmodifiableList` or `Collections.unmodifiableSet` etc but now we have:
+
+
+## Oracle JDK vs Open JDK
+In order to be more developer-friendly, Oracle & Java community now promotes the OpenJDK binaries as primary JDK going forward.
+
+## Local-Variable Type
+Parsing a `var` statement, the compiler looks at the right-hand side of the declaration, aka initializer, and it infers the type from the right-hand side (RHS) expression.
+
+## Java 11 / JDK
+Java 11 is the second LTS release after Java 8. Since Java 11, Oracle JDK would no longer be free for commercial use.
+
+## Running Java File with single command
+No need to compile the java source file with `javac` tool first. You can directly run the file with `java` command and it implicitly compiles.
+
+## String
+Several new methods were introduced such as `isBlank()`, `lines()`, `strip()`, `stripLeading()`, `stripTrailing()`, and `repeat(int)`.
+
+## Local Var
+Now allowing below syntax for lambda.
+
+
+## Compact Strings
+Compact Strings were introduced.
+
 

@@ -3,7 +3,7 @@ package javaExpo.Patterns.Singleton;
 public class Singleton {
 
     private static Singleton privateInstance;
-    private static Object lockObj = new Object();
+    private static final Object lockObj = new Object();
 
     private Singleton() {
     }

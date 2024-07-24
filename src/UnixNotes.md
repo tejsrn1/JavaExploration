@@ -143,8 +143,6 @@
 
 
 *********************UNIX/Linux Shell Script  *****************************
-http://www.tutorialspoint.com/unix_terminal_online.php
-
 
 - Program/Script to be run by Linux/Unix system. Basically it provides interface to UNIX system.
 - Many type of shell script e.g. Bourne Shel , GNU Bourne shell etc.

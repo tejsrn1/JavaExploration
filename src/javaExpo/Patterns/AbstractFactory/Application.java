@@ -28,7 +28,7 @@ public class Application {
         oracle.writeData();
         oracle.getData();
 
-        IRdbmsSQLDB sqlserver =rdbmsfactry.getRDBMSSqlDB("sqlserver");
+        IRdbmsSQLDB sqlserver = rdbmsfactry.getRDBMSSqlDB("sqlserver");
         sqlserver.CreateTransaction();
         sqlserver.writeData();
         sqlserver.getData();

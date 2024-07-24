@@ -4,7 +4,7 @@ package javaExpo;
 public class GenericClass<T> {
 
     // variable of T type
-    private T data;
+    private final T data;
 
     public GenericClass(T data) {
         this.data = data;
@@ -16,8 +16,7 @@ public class GenericClass<T> {
     }
 
 
-
-    public <T> void genericMethods(T data){
+    public <T> void genericMethods(T data) {
         System.out.println("data received is " + data);
 
     }

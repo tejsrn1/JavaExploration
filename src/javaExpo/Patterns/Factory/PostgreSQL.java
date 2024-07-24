@@ -1,6 +1,6 @@
 package javaExpo.Patterns.Factory;
 
-public class PostgreSQL implements  IDBFactory {
+public class PostgreSQL implements IDBFactory {
     @Override
     public void connect() {
 

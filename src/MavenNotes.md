@@ -78,5 +78,5 @@
 - Archetype:
     - Archetype is a Maven project templating toolkit. An archetype is defined as an original pattern or model from which all other things of the same kind are made
     -  create a new project based on an Archetype, you need to call mvn archetype:generate
-    -
+  
 	

@@ -1,6 +1,6 @@
 package javaExpo.Patterns.Factory;
 
-public class MongoDb implements  IDBFactory{
+public class MongoDb implements IDBFactory {
 
     @Override
     public void connect() {

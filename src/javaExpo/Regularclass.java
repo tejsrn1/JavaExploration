@@ -13,10 +13,10 @@ public class Regularclass {
 
 
         genericClass1.genericMethods("Passingdata");
-        genericClass1.<String>genericMethods("Passingdata");
-        genericClass1.<Double>genericMethods(24.32);
+        genericClass1.genericMethods("Passingdata");
+        genericClass1.genericMethods(24.32);
         genericClass1.genericMethods(39);
-        genericClass1.<Boolean>genericMethods(true); // defined T as method level and it can be different then class level.
+        genericClass1.genericMethods(true); // defined T as method level and it can be different then class level.
 
         //usage
 

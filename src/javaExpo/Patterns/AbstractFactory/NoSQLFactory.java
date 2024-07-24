@@ -22,6 +22,6 @@ public class NoSQLFactory extends AbstractFactory {
     @Override
     public IRdbmsSQLDB getRDBMSSqlDB(String DbName) {
 //        throw new NotImplementedException();
-        return  null;
+        return null;
     }
 }

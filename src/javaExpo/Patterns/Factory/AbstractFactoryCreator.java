@@ -7,6 +7,6 @@ public abstract class AbstractFactoryCreator {
 
     public enum DBList {
         Mongodb,
-        PostgreSQL;
+        PostgreSQL
     }
 }

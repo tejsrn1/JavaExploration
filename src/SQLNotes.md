@@ -30,16 +30,13 @@
 				- 1NF + Should not have Partial dependency
 				- Partial dependency ie. Composite primary key does not fully represent as one of the column only requires either primary key not composite key.
 				- how to fix? move that column in related table of that primary key so that composite primary key make sense.
-				- good e.g. https://www.studytonight.com/dbms/second-normal-form.php
 			- Third Normal Form 3NF
 				- 2NF +  Does not have Transitive  dependency.
 				- Transitive Dependency. When a non-prime column depends on other non-prime column rather than depending upon the prime column or primary key
-				- Fix ? https://www.studytonight.com/dbms/third-normal-form.php
 				- Adv : duplicate removed and achieved data integrity.
 				
 			- Fourth Normal Form : 4NF
 				- 3NF + doesn't have Multi-Valued Dependency.
-				- https://www.studytonight.com/dbms/fourth-normal-form.php
 				
 			- Fifth Normal Form : 5NF 
 				- 4NF + Isolate Semantically Related Multiple Relationships	

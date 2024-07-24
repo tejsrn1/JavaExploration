@@ -1,4 +1,4 @@
-package javaExpo.DSPatterns.AbstractFactory;
+package javaExpo.Patterns.AbstractFactory;
 
 //This is Factory of other factories. and makes pattern.
 public class FactoryProducer {

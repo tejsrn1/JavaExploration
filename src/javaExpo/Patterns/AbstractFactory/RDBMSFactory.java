@@ -1,9 +1,9 @@
-package javaExpo.DSPatterns.AbstractFactory;
+package javaExpo.Patterns.AbstractFactory;
 
-import javaExpo.DSPatterns.AbstractFactory.NOSql.INoSQLDB;
-import javaExpo.DSPatterns.AbstractFactory.RDMS.IRdbmsSQLDB;
-import javaExpo.DSPatterns.AbstractFactory.RDMS.Oracle;
-import javaExpo.DSPatterns.AbstractFactory.RDMS.SQLSERVER;
+import javaExpo.Patterns.AbstractFactory.NOSql.INoSQLDB;
+import javaExpo.Patterns.AbstractFactory.RDMS.IRdbmsSQLDB;
+import javaExpo.Patterns.AbstractFactory.RDMS.Oracle;
+import javaExpo.Patterns.AbstractFactory.RDMS.SQLSERVER;
 
 public class RDBMSFactory extends AbstractFactory {
     @Override

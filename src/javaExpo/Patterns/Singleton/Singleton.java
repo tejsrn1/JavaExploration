@@ -1,4 +1,4 @@
-package javaExpo.DSPatterns.Singleton;
+package javaExpo.Patterns.Singleton;
 
 public class Singleton {
 

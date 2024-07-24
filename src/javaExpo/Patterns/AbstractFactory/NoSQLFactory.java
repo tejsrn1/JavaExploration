@@ -1,9 +1,9 @@
-package javaExpo.DSPatterns.AbstractFactory;
+package javaExpo.Patterns.AbstractFactory;
 
-import javaExpo.DSPatterns.AbstractFactory.NOSql.CassendraDB;
-import javaExpo.DSPatterns.AbstractFactory.NOSql.INoSQLDB;
-import javaExpo.DSPatterns.AbstractFactory.NOSql.MongoDb;
-import javaExpo.DSPatterns.AbstractFactory.RDMS.IRdbmsSQLDB;
+import javaExpo.Patterns.AbstractFactory.NOSql.CassendraDB;
+import javaExpo.Patterns.AbstractFactory.NOSql.INoSQLDB;
+import javaExpo.Patterns.AbstractFactory.NOSql.MongoDb;
+import javaExpo.Patterns.AbstractFactory.RDMS.IRdbmsSQLDB;
 
 public class NoSQLFactory extends AbstractFactory {
     @Override

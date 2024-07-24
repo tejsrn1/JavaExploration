@@ -1,4 +1,4 @@
-package javaExpo.DSPatterns.AbstractFactory.NOSql;
+package javaExpo.Patterns.AbstractFactory.NOSql;
 
 public interface INoSQLDB {
     void  getData();

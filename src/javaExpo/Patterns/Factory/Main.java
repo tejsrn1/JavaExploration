@@ -1,4 +1,4 @@
-package javaExpo.DSPatterns.Factory;
+package javaExpo.Patterns.Factory;
 
 public class Main {
 

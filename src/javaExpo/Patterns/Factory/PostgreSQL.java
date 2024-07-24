@@ -1,7 +1,6 @@
-package javaExpo.DSPatterns.Factory;
+package javaExpo.Patterns.Factory;
 
-public class MongoDb implements  IDBFactory{
-
+public class PostgreSQL implements  IDBFactory {
     @Override
     public void connect() {
 

@@ -1,4 +1,4 @@
-package javaExpo.DSPatterns.AbstractFactory.RDMS;
+package javaExpo.Patterns.AbstractFactory.RDMS;
 
 public class Oracle implements IRdbmsSQLDB {
     @Override

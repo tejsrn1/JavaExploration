@@ -1,6 +1,6 @@
-package javaExpo.DSPatterns.AbstractFactory.NOSql;
+package javaExpo.Patterns.AbstractFactory.NOSql;
 
-public class CassendraDB implements INoSQLDB {
+public class MongoDb implements  INoSQLDB {
     @Override
     public void getData() {
 

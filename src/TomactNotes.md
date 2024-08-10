@@ -1,80 +1,61 @@
+
 # Java Webserver / Application Server (Tomcat) and Web Container
 
 ## A. WebServer/Web Container Overview
 
-- A **Webserver** primarily serves static content, while an **Application Server** provides server-side responses. However, both now perform similar functions.
-- A **Webcontainer** in Java is a Servlet container. It is a component of a web server that interacts with Java servlets.
-- The Webcontainer manages the lifecycle of servlets, maps URLs to particular servlets, and ensures that the URL requester has the correct access rights.
-- The Java servlet API includes classes like ServletContext, ServletRequest, ServletResponse, and Session.
-- Essentially, it's a runtime environment where servlets run.
-
-Java Servlets enable you to write server-side components which help in generating dynamic content based on requests. Java provides servlet interfaces and the webserver company has to provide the actual implementation.
+- **Webserver**: Primarily serves static content; **Application Server** handles server-side processing. Both now perform similar functions.
+- **Webcontainer**: A Java Servlet container within a web server, managing the lifecycle of servlets, URL mappings, and access rights. It serves as the runtime environment for Java servlets, enabling dynamic content generation.
 
 ### ServletContext
 
-- When the servlet container starts, it deploys and loads all web applications. When a web application is loaded, the servlet container will create a ServletContext once per application and keep it in server memory.
-- Also, web.xml will be parsed and every servlet, filter, and listener found in web.xml will be created and kept in memory.
-- ServletContext defines a set of methods that a servlet uses to communicate with its servlet container.
-
-The Servlet container is attached to the Webserver that listens to HTTP requests on port 80 (Tomcat is on 8080). When a new request comes, the servlet container will create a new HttpServletRequest and HttpServletResponse object and pass it through the method of the already created Filter and Servlet instance based on URL matching request ALL IN THE SAME THREAD.
-
-Servlets and filters are shared among all requests so never assign any request or session scoped data as an instance variable of a servlet or filter otherwise it will be shared among all requests.
-
-From a high-level perspective: Webserver -> Webcontainer/Servletcontainer -> Filter, Listener, Servlet Instance -> ServletContext -> Servlet API class in a particular application.
+- Created once per application by the servlet container when a web application is loaded. It stays in server memory and facilitates communication between the servlet and the container.
+- ServletContext manages servlets, filters, and listeners defined in `web.xml`.
 
 ### HttpSession
 
-When a client visits the web-app for the first time and/or the HttpSession is to be obtained for the first time by request.getSession(), then the servlet container will create it, generate a long and unique ID (which you can get by session.getId()) and store it in the server’s memory. The servlet container will also set a Cookie in the HTTP response with JSESSIONID as the cookie name and the unique session ID as the cookie value.
+- Created when a client first visits a web app, with a unique session ID stored as a cookie (`JSESSIONID`). It persists session data server-side.
 
 ## B. Tomcat Overview
 
-Apache Tomcat is an open-source web server and servlet container developed by Apache. Tomcat implements several Java EE interfaces like Servlet, JSP, etc. Tomcat consists of several components like Server, Service, Engine, Host, Context, and connectors. All these are defined in server.xml which is located in the /conf subdirectory of the Tomcat installation folder.
+**Apache Tomcat**: An open-source web server and servlet container that implements Java EE interfaces (Servlet, JSP, etc.). Key components include:
 
-### HOST
+### Host
 
-- It's a network name www.google.com to the Tomcat server.
-- A Host can have any number of applications.
-- There can be several hosts on the same Tomcat server e.g., www.google.com, www.microsoft.com, etc.
-- The Host attribute "appBase" defines the application directory within the Tomcat installation folder. Each application is then identified by its path within that directory.
-    - For example, the App base directory for localhost is webapps (C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\ROOT\) for http://localhost:8080.
-    - For other apps other than ROOT as in “C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\myapp\“, the URL is like “http://localhost:8080/myapp/“.
-    - Like IIS has inetpub as default and other custom directories for any custom website.
+- Represents a network name (e.g., `www.google.com`) on the Tomcat server.
+- Multiple hosts can run on the same Tomcat server.
+- The `appBase` attribute defines the application directory within Tomcat, with each application identified by its path.
 
 ### Context
 
-- It's the innermost element of the component of the server and it represents a single web application.
-- Tomcat automatically instantiates and configures a standard context upon loading an application.
-- It also loads properties defined in WEB-INF\web.xml file.
+- Represents a single web application within Tomcat, automatically instantiated and configured upon application load. It uses properties from the `WEB-INF/web.xml` file.
 
 ### Connectors
 
-- It handles communication with the client.
-- There are various connectors available e.g., HTTPConnector for HTTP traffic and AJP connector to use the AJP protocol, etc. Connectors listen on port 8080.
+- Handle communication with clients. Common connectors include `HTTPConnector` for HTTP traffic and `AJPConnector` for the AJP protocol. They typically listen on port 8080.
 
 ### Service
 
-- It ties connectors to the engine. Tomcat has a default service name Catalina which connects HTTP AND AJP CONNECTORS TO the Catalina Engine.
+- Ties connectors to the engine. The default service in Tomcat is "Catalina," connecting HTTP and AJP connectors to the Catalina engine.
 
 ### Engine
 
-- Represents the request processing pipeline for a specific service.
-- The Engine receives and processes all requests from all these connectors and handles the response back to the appropriate connector for transmission to the client.
-    - For example, Jasper: JSP Engine for Tomcat, responsible for parsing JSP files and compilation of JSP’s Java code as servlets. Remember like IIS once compile code it needs to be updated to get in effect by tomcat.
-    - Catalina: Tomcat’s servlet container. Catalina makes Tomcat a Web Server for dynamic content.
-    - Coyote: makes Tomcat an HTTP web server.
+- Manages the request processing pipeline for a specific service, handling requests from connectors and returning responses. Examples include:
+  - **Jasper**: JSP engine, compiles JSP to servlets.
+  - **Catalina**: Tomcat’s servlet container for dynamic content.
+  - **Coyote**: Tomcat’s HTTP web server component.
 
 ### Server
 
-- It's an instance of the Tomcat server. It has services that connect the connector to the engine.
+- Represents the Tomcat server instance, containing services that connect connectors to the engine.
 
 ### Listener
 
-- It's a Java object that implements the org.apache.catalina.LifecycleListener interface.
+- Implements the `org.apache.catalina.LifecycleListener` interface to monitor server lifecycle events.
 
 ### Realm
 
-- It can appear in any container e.g., Engine, Host, and Context and represent a database of users, passwords, user roles. Its purpose is to support container-based authentication.
+- Manages user authentication and roles, supporting container-based authentication across components like Engine, Host, and Context.
 
 ### Valve
 
-- It's an interceptor and intercepts all HTTP requests before they reach the application.
+- An interceptor that processes HTTP requests before they reach the application, often used for logging or access control.
